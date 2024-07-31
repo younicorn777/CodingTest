@@ -3,12 +3,12 @@
 
 int main(void)
 {
-	short count;
-	scanf("%hd", &count);
+	int count;
+	scanf("%d", &count);
 
-	for (short i = 0; i < count; i++)
+	for (int i = 0; i < count; i++)
 	{
-		for (short j = 0; j <= i; j++)
+		for (int j = 0; j <= i; j++)
 			printf("*");
 		puts("");
 	}
