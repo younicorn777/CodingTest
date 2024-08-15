@@ -5,7 +5,7 @@ char str[1000001];
 
 int main(void)
 {
-	int a = 0; // 가장 많이 나온 알파벳
+	int a = 0, cnt = 0; // 가장 많이 나온 알파벳과 등장 횟수
 	int alpha[26] = { 0 }; // 알파벳이 등장한 횟수
 	scanf("%s", str);
 
@@ -18,26 +18,24 @@ int main(void)
 			alpha[str[i] - 65]++;
 		i++;
 	}
-	
-	int max = alpha[0], cnt = 0; // 가장 많이 나온 알파벳수와 해당 알파벳
-	for (int i = 1; i < 26; i++)
+
+	for (int i = 1, max = alpha[0]; i < 26; i++)
 	{
-		if (alpha[i] > max) {
+		if (alpha[i] == 0)
+			continue;
+		
+		if (alpha[i] > max)
+		{
 			max = alpha[i];
 			a = i;
+			cnt = 0;
 		}
-	}
-
-	for (int i = 0; i < 26; i++) 
-	{
-		if (max == alpha[i])
+		else if (alpha[i] == max)
 			cnt++;
 	}
-
-	if (cnt > 1)
+	
+	if (cnt >= 1)
 		printf("?");
 	else
 		printf("%c", a + 65);
-
-	return 0;
 }
