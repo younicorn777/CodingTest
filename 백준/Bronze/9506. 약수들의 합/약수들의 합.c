@@ -4,6 +4,7 @@
 int main(void)
 {
 	int n, sum;
+
 	while (1)
 	{
 		sum = 0;
@@ -13,8 +14,7 @@ int main(void)
 			break;
 
 		for (register int i = 1; i < n; i++)
-			if (n % i == 0)
-				sum += i;
+			sum += (n % i == 0) ? i: 0;
 		
 		if (n == sum)
 		{
