@@ -8,7 +8,7 @@ int main(void)
 	scanf("%d", &n); 
 
 	int i = 666;
-	while (1)
+	while (n != count)
 	{
 		int k = 0;
 
@@ -23,10 +23,8 @@ int main(void)
 				break;
 			}
 		}
-		
-		if (n == count)
-			break;
+
 		i++;
 	}
-	printf("%d", i);
+	printf("%d", i - 1);
 }
