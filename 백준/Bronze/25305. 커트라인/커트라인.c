@@ -24,5 +24,5 @@ int main(void)
 		}
 	}
 	printf("%d", pa[n-k]);
-    free(pa);
+    	free(pa);
 }
