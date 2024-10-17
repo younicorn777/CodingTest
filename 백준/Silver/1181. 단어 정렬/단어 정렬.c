@@ -3,87 +3,90 @@
 #include <stdlib.h>
 #include <string.h>
 
-void MergeTwoArea(char **parr, int left, int mid, int right)
+typedef struct _StrInfo
+{
+	int size; 
+	char str[51];
+}Str;
+
+void MergeTwoArea(Str *arr, int left, int mid, int right)
 {
 	int fIdx = left;
 	int rIdx = mid + 1;
-	int i;
 
-	char** SortArr = (char**)malloc(sizeof(char*) * (right + 1));
+	Str* sortArr = (Str*)malloc(sizeof(Str) * (right + 1));
 	int sIdx = left;
 
 	while (fIdx <= mid && rIdx <= right)
 	{
-		if (strlen(parr[fIdx]) > strlen(parr[rIdx]))
-			SortArr[sIdx] = parr[rIdx++];
+		if (arr[fIdx].size < arr[rIdx].size)
+			sortArr[sIdx] = arr[fIdx++];
 		
-		else if (strlen(parr[fIdx]) == strlen(parr[rIdx]))
+		else if (arr[fIdx].size == arr[rIdx].size)
 		{
-			if(strcmp(parr[fIdx], parr[rIdx]) >= 0)
-				SortArr[sIdx] = parr[rIdx++];
+			if(strcmp(arr[fIdx].str, arr[rIdx].str) <= 0)
+				sortArr[sIdx] = arr[fIdx++];
 			else
-				SortArr[sIdx] = parr[fIdx++];
+				sortArr[sIdx] = arr[rIdx++];
 		}
 		
 		else
-			SortArr[sIdx] = parr[fIdx++];
+			sortArr[sIdx] = arr[rIdx++];
 
 		sIdx++;
 	}
 
 	if (fIdx > mid)
 	{
-		for (i = rIdx; i <= right; i++, sIdx++)
-			SortArr[sIdx] = parr[i];
+		for (int i = rIdx; i <= right; i++, sIdx++)
+			sortArr[sIdx] = arr[i];
 	}
 	else
 	{
-		for (i = fIdx; i <= mid; i++, sIdx++)
-			SortArr[sIdx] = parr[i];
+		for (int i = fIdx; i <= mid; i++, sIdx++)
+			sortArr[sIdx] = arr[i];
 	}
 
-	for (i = left; i <= right; i++)
-		parr[i] = SortArr[i];
+	for (int i = left; i <= right; i++)
+		arr[i] = sortArr[i];
 
-	free(SortArr);
+	free(sortArr);
 }
 
-void MergeSort(char **parr, int left, int right)
+void MergeSort(Str *arr, int left, int right)
 {
 	int mid;
 
 	if (left < right)
 	{
 		mid = (left + right) / 2;
-		MergeSort(parr, left, mid);
-		MergeSort(parr, mid + 1, right);
-		MergeTwoArea(parr, left, mid, right);
+		MergeSort(arr, left, mid);
+		MergeSort(arr, mid + 1, right);
+		MergeTwoArea(arr, left, mid, right);
 	}
 }
+
 
 int main(void)
 {
 	int n;
 	scanf("%d", &n);
-	char** parr = (char**)malloc(sizeof(char*) * n);
+	
+	Str* parr = (Str*)malloc(sizeof(Str) * n);
 	
 	for (int i = 0; i < n; i++)
-		parr[i] = (char*)malloc(sizeof(char) * 51);
-
-	for (int i = 0; i < n; i++)
-		scanf("%s", parr[i]); 
-
+	{
+		scanf("%s", parr[i].str);
+		parr[i].size = strlen(parr[i].str);
+	}
+	
 	MergeSort(parr, 0, n - 1);
-	
+
 	for (int i = 0; i < n; i++)
-    {
-		if ((i < n - 1) && strcmp(parr[i], parr[i + 1]) == 0)
-		{
-			free(parr[i]);
+	{
+		if ((i < (n - 1)) && strcmp(parr[i].str, parr[i + 1].str) == 0)
 			continue;
-		}
-		printf("%s\n", parr[i]);
-		free(parr[i]);
-    }
+		printf("%s\n", parr[i].str);
+	}
 	free(parr);
 }
