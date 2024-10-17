@@ -4,7 +4,6 @@
 
 typedef struct _PersonInfo
 {
-	int order;      // 가입한 순서 
 	int age;        // 나이
 	char name[101]; // 이름
 }Person;
@@ -19,17 +18,8 @@ void MergeTwoArea(Person *arr, int left, int mid, int right)
 
 	while (fidx <= mid && ridx <= right)
 	{
-		if (arr[fidx].age < arr[ridx].age)
+		if (arr[fidx].age <= arr[ridx].age)
 			sortArr[sidx] = arr[fidx++];
-		
-		else if (arr[fidx].age == arr[ridx].age)
-		{
-			if (arr[fidx].order < arr[ridx].order)
-				sortArr[sidx] = arr[fidx++];
-			else
-				sortArr[sidx] = arr[ridx++];
-		}
-		
 		else
 			sortArr[sidx] = arr[ridx++];
 
@@ -69,16 +59,13 @@ void MergeSort(Person *arr, int left, int right)
 
 int main(void)
 {
-	int n, order = 0;
+	int n;
 	scanf("%d", &n);
 
 	Person* parr = (Person*)malloc(sizeof(Person) * n);
 
 	for (int i = 0; i < n; i++)
-	{
 		scanf("%d%s", &(parr[i].age), parr[i].name);
-		parr[i].order = order++;
-	}
 
 	MergeSort(parr, 0, n - 1);
 
