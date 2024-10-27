@@ -78,6 +78,7 @@ void LRemove(List* plist)
 
 	plist->cur->prev = delnode->prev;
 	delnode->prev->next = plist->cur;
+	free(delnode);
 }
 
 void MoveLeft(List* plist)
