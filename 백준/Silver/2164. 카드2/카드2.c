@@ -13,7 +13,7 @@ typedef struct _node
 	struct _node* next;
 }Node;
 
-typedef struct ListbaseQueue
+typedef struct _ListbaseQueue
 {
 	Node* front;
 	Node* rear;
@@ -22,8 +22,10 @@ typedef struct ListbaseQueue
 
 void QueueInit(Queue* pq)
 {
-	pq->front = NULL;
-	pq->rear = NULL;
+	pq->front = (Node*)malloc(sizeof(Node));
+	pq->front->next = NULL;
+	pq->rear = pq->front;
+
 	pq->numofdata = 0;
 }
 
@@ -43,7 +45,7 @@ void Enqueue(Queue* pq, Data data)
 
 	if (QIsEmpty(pq))
 	{
-		pq->front = newnode;
+		pq->front->next = newnode;
 		pq->rear = newnode;
 	}
 	else
@@ -51,6 +53,7 @@ void Enqueue(Queue* pq, Data data)
 		pq->rear->next = newnode;
 		pq->rear = newnode;
 	}
+
 	(pq->numofdata)++;
 }
 
@@ -62,10 +65,10 @@ Data Dequeue(Queue* pq)
 	if (QIsEmpty(pq))
 		exit(-1);
 
-	delnode = pq->front;
+	delnode = pq->front->next;
 	deldata = delnode->data;
-	pq->front = pq->front->next;
-	
+	pq->front->next = delnode->next;
+
 	free(delnode);
 	(pq->numofdata)--;
 	return deldata;
@@ -73,7 +76,7 @@ Data Dequeue(Queue* pq)
 
 int NumOfData(Queue* pq)
 {
-	return (pq->numofdata);
+	return pq->numofdata;
 }
 
 int main(void)
