@@ -1,7 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include<stdio.h>
 
-long long int gcd(long long int a, long long int b) 
+int gcd(int a, int b) 
 {
 	if (b == 0)
 		return a;
@@ -11,17 +11,13 @@ long long int gcd(long long int a, long long int b)
 
 int main() 
 {
-	long long int a, b, c, d, numer, denomi, result;
-	scanf("%lld%lld", &a, &b);
-	scanf("%lld%lld", &c, &d);
+	int a, b, c, d, numer, denomi, divide;
+	scanf("%d%d", &a, &b);
+	scanf("%d%d", &c, &d);
 
-	denomi = (b * d) / gcd(b, d);
-	numer = (a * denomi / b) + (c * denomi / d);
-	
-	result = gcd(numer, denomi);
+	numer = (a * d) + (b * c);
+	denomi = (b * d);
+	divide = gcd(numer, denomi);
 
-	if (result == 1)
-		printf("%lld %lld", numer, denomi);
-	else
-		printf("%lld %lld", numer / result, denomi / result);
+	printf("%d %d", numer / divide, denomi / divide);
 }
