@@ -1,7 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 
-int arr[100000];
+int tree[100000];
+int tree_distance[100000];
 
 int gcd(int a, int b) 
 {
@@ -13,36 +14,21 @@ int gcd(int a, int b)
 
 int main() 
 {
-	int n, num = 1, idx = 1, result, count = 0;
+	int n, gap, count = 0;
 	scanf("%d", &n);
 
-	for (int i = 0, temp; i < n; i++)
-	{
-		scanf("%d", &arr[i]);
+	for (int i = 0; i < n; i++)
+		scanf("%d", &tree[i]);
 
-		if (i == 0)
-			temp = arr[i];
+	for (int i = 0; i < n - 1; i++)
+		tree_distance[i] = tree[i + 1] - tree[i];
+
+	gap = tree_distance[0];
+	for (int i = 1; i < n - 1; i++)
+		gap = gcd(gap, tree_distance[i]);
 	
-		arr[i] -= temp;
-	}
-
-	result = gcd(arr[1], arr[2]);
-
-	for (int i = 3; i < n; i++)
-	{
-		if (result == 1)
-			break;
-
-		result = gcd(result, arr[i]);
-	}
-
-	while (idx < n)
-	{
-		if (arr[idx] == result * (num++))
-			idx++;
-		else
-			count++;
-	}
+	for (int i = 0; i < n - 1; i++)
+		count += (tree_distance[i] / gap) - 1;
 
 	printf("%d", count);
 }
