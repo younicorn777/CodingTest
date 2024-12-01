@@ -5,23 +5,21 @@ int arr[1000001] = { 0 };
 
 void SieveOfEratos(int m, int n)
 {
-	for (int i = 2; i <= n; i++)
-		arr[i] = i;
+	arr[1] = 1;
 
 	for (int i = 2; i <= n; i++)
 	{
-		if (arr[i] != 0)
+		if (arr[i] == 0)
 		{
 			for (int j = 2; i * j <= n; j++)
-				arr[i * j] = 0;
+				arr[i * j] = 1;
 		}
 	}
 
-	for (int i = m, data; i <= n; i++)
+	for (int i = m; i <= n; i++)
 	{
-		data = arr[i];
-		if (data != 0)
-			printf("%d\n", data);
+		if (arr[i] == 0)
+			printf("%d\n", i);
 	}
 }
 
