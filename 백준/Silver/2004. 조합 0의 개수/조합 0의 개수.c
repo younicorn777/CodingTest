@@ -1,6 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
-#include <math.h>
 
 void Count2And5(long long a, long long *pcount2, long long *pcount5)
 {
