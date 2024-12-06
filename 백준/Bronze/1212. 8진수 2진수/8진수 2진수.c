@@ -7,59 +7,16 @@ char rstr[1000002];
 
 int main()
 {
-	int idx = 0, ridx = 0;
+	int idx = 0, ridx = 0, data;
+	char convert[8][3] = { "000", "001", "010", "011", "100", "101", "110", "111" };
 	scanf("%s", str);
 
 	while (str[idx] != '\0')
 	{
-		if (str[idx] == '0')
-		{
-			rstr[ridx++] = '0';
-			rstr[ridx++] = '0';
-			rstr[ridx++] = '0';
-		}
-		else if (str[idx] == '1')
-		{
-			rstr[ridx++] = '0';
-			rstr[ridx++] = '0';
-			rstr[ridx++] = '1';
-		}
-		else if (str[idx] == '2')
-		{
-			rstr[ridx++] = '0';
-			rstr[ridx++] = '1';
-			rstr[ridx++] = '0';
-		}
-		else if (str[idx] == '3')
-		{
-			rstr[ridx++] = '0';
-			rstr[ridx++] = '1';
-			rstr[ridx++] = '1';
-		}
-		else if (str[idx] == '4')
-		{
-			rstr[ridx++] = '1';
-			rstr[ridx++] = '0';
-			rstr[ridx++] = '0';
-		}
-		else if (str[idx] == '5')
-		{
-			rstr[ridx++] = '1';
-			rstr[ridx++] = '0';
-			rstr[ridx++] = '1';
-		}
-		else if (str[idx] == '6')
-		{
-			rstr[ridx++] = '1';
-			rstr[ridx++] = '1';
-			rstr[ridx++] = '0';
-		}
-		else
-		{
-			rstr[ridx++] = '1';
-			rstr[ridx++] = '1';
-			rstr[ridx++] = '1';
-		}
+		data = str[idx] - 48;
+
+		for (int i = 0; i < 3; i++)
+			rstr[ridx++] = convert[data][i];
 
 		idx++;
 	}
