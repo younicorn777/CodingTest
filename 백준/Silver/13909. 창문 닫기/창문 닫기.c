@@ -3,14 +3,10 @@
 
 int main() 
 {
-	long long n, i, j = 1, count = 0;
+	long long n, i, j, count = 0;
 	scanf("%lld", &n);
 	
-	for (i = 1; i <= n; i = j * j)
-	{
-		count++;
-		j++;
-	}
+	for (i = 1, j = 1; i <= n; count++, j++, i = j * j);
 	
 	printf("%lld", count);
 }
