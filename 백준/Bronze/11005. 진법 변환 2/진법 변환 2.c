@@ -1,22 +1,33 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 
-int main(void)
+void What(int temp)
 {
-	char num[32] = { '\0' };
-	int i = 0, b, result, remain;   //자릿수, 진법, 몫(10진수) ,나머지
-	scanf("%d%d", &result, &b);
+	if (temp >= 10)
+		printf("%c", temp + 55);
+	else
+		printf("%d", temp);
+}
 
-	while (result >= b)
+void Convert(int target, int base)
+{
+	int remain;
+
+	if (target < base)
+		What(target);
+	else
 	{
-		remain = result % b; // 정수끼리의 연산에서만 %가능, 결과값 또한 정수
-		result /= b;         // 정수끼리의 연산이므로, 결과값 정수
-
-		num[i++] = (remain >= 10) ?  remain + 55 : remain + 48;
+		remain = target % base;
+		target /= base;
+		
+		Convert(target, base);
+		What(remain);
 	}
-	
-	num[i] = (result >= 10) ? result + 55 : result + 48;
+}
 
-	for (int j = i; j >= 0; j--)
-		printf("%c", num[j]);
+int main()
+{
+	int n, b;
+	scanf("%d%d", &n, &b);
+	Convert(n, b);
 }
