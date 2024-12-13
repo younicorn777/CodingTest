@@ -3,22 +3,24 @@
 #include <string.h>
 #include <math.h>
 
-int main(void)
+int main()
 {
-	double sum = 0.0; // 각 자리수를 변환시 합
-	short b, size;
-	char num[30] = { '\0' };
+	char str[33];
+	double b, sum = 0.0;
 
-	scanf("%s%hd", num, &b);
-	size = (short)strlen(num) - 1;
+	scanf("%s%lf", str, &b);
 
-	int i = 0, j = size;
-	while (num[i])
+	int size = strlen(str) - 1;
+
+	for (int i = size, temp; i >= 0; i--)
 	{
-		if (num[i] >= '0' && num[i] <= '9')
-			sum += (num[i++] - 48) * pow(b, j--);
-		else if(num[i] >= 'A' && num[i] <= 'Z')
-			sum += (num[i++] - 55) * pow(b, j--); //주의(A == 10)
+		if (str[size - i] >= 65)
+			temp = str[size - i] - 55;
+		else
+			temp = str[size - i] - 48;
+
+		sum += (temp * pow(b, i));
 	}
+
 	printf("%.0lf", sum);
 }
