@@ -3,85 +3,111 @@
 #include <string.h>
 #include <stdlib.h>
 
-char target[501];
-char str[10000][501];
-char SortArr[10000][501];
+#define	TBL_SIZE 193
+#define STR_LEN 501
 
-void MergeTwoArea(char arr[][501], int left, int mid, int right)
+typedef int Key;
+typedef char Value;
+typedef int HashFunc(int key);
+
+typedef struct _node
 {
-	int fIdx = left; 
-	int rIdx = mid + 1;
-	int sIdx = left;
+	Key key;
+	Value value[STR_LEN];
+	struct _node* next;
+}Node;
 
-	while (fIdx <= mid && rIdx <= right)
+typedef struct _table
+{
+	Node* slot[TBL_SIZE];
+	HashFunc* hf;
+}Table;
+
+void TBLInit(Table* pt, HashFunc *f)
+{
+	for (int i = 0; i < TBL_SIZE; i++)
 	{
-		if (strcmp(arr[fIdx], arr[rIdx]) <= 0)
-			strcpy(SortArr[sIdx], arr[fIdx++]);
-		else
-			strcpy(SortArr[sIdx], arr[rIdx++]);
-
-		sIdx++;
+		Node* newnode = (Node*)malloc(sizeof(Node));
+		newnode->next = NULL;
+		(pt->slot[i]) = newnode;
 	}
 
-	if (fIdx > mid)
-	{
-		for (int i = rIdx; i <= right; i++)
-			strcpy(SortArr[sIdx++], arr[i]);
-	}
-	else
-	{
-		for (int i = fIdx; i <= mid; i++)
-			strcpy(SortArr[sIdx++], arr[i]);
-	}
-
-	for (int i = left; i <= right; i++)
-		strcpy(arr[i], SortArr[i]);
+	pt->hf = f;
 }
 
-void MergeSort(char arr[][501], int left, int right)
+void TBLInsert(Table* pt, Key k, Value* v)
 {
-	int mid;
-
-	if (left < right)
-	{
-		mid = (left + right) / 2;
-		MergeSort(arr, left, mid);
-		MergeSort(arr, mid + 1, right);
-		MergeTwoArea(arr, left, mid, right);
-	}
-}
-
-int BinarySearch(char str[][501], int left, int right, char target[])
-{
-	if (left > right)
-		return 0;
+	int hv = pt->hf(k);
 	
-	int	mid = (left + right) / 2;
-	int result = strcmp(str[mid], target);
+	Node* newnode = (Node*)malloc(sizeof(Node));
+	newnode->key = k;
+	strcpy(newnode->value, v);
 
-	if (!result)
-		return 1;
-	else if (result > 0)
-		return BinarySearch(str, left, mid - 1, target);
-	else
-		return BinarySearch(str, mid + 1, right, target);
+	newnode->next = pt->slot[hv]->next;
+	pt->slot[hv]->next = newnode;
+}
+
+int TBLSearch(Table* pt, Key k, Value* str)
+{
+	int hv = pt->hf(k);
+	Node* cur = pt->slot[hv]->next;
+
+	if (cur != NULL)
+	{
+		if (cur->key == k && !(strcmp(cur->value, str)))
+			return 1;
+		else
+		{
+			while (cur->next != NULL)
+			{
+				cur = cur->next;
+				
+				if (cur->key == k && !(strcmp(cur->value, str)))
+					return 1;
+			}
+		}
+	}
+
+	return 0;
+}
+
+int MyHashFunc(int key)
+{
+	return key % TBL_SIZE;
+}
+
+int MakeKey(char* pstr)
+{
+	int key = 0;
+
+	while (*pstr)
+	{
+		key += (*pstr);
+		pstr++;
+	}
+
+	return key;
 }
 
 int main()
 {
+	Table table;
+	TBLInit(&table, MyHashFunc);
+
 	int n, m, count = 0;
+	char str[501];
 	scanf("%d%d", &n, &m);
 
 	for (int i = 0; i < n; i++)
-		scanf("%s", str[i]);
-
-	MergeSort(str, 0, n - 1);
+	{
+		scanf("%s", str);
+		TBLInsert(&table, MakeKey(str), str);
+	}
 
 	for (int i = 0; i < m; i++)
 	{
-		scanf("%s", target);
-		if (BinarySearch(str, 0, n - 1, target))
-			count++;
+		scanf("%s", str);
+		count += (TBLSearch(&table, MakeKey(str), str));
 	}
 
 	printf("%d", count);
