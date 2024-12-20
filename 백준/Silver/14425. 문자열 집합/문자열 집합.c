@@ -71,6 +71,28 @@ int TBLSearch(Table* pt, Key k, Value* str)
 	return 0;
 }
 
+void TBLDelete(Table* pt)
+{
+	Node* cur;
+	Node* Next;
+
+	for (int i = 0; i < TBL_SIZE; i++)
+	{
+		cur = (pt->slot[i]);
+		Next = cur->next;
+
+		while (Next != NULL)
+		{
+			free(cur);
+			cur = Next;
+			Next = Next->next;
+		}
+
+		free(cur);
+	}
+	free(Next);
+}
+
 int MyHashFunc(int key)
 {
 	return key % TBL_SIZE;
@@ -111,4 +133,6 @@ int main()
 	}
 
 	printf("%d", count);
+
+	TBLDelete(&table);
 }
