@@ -166,6 +166,8 @@ void TBLMergeAndPrint(Table* pt, int size)
 			free(cur);
 			cur = Next;
 		}
+
+		free(pt->slot[i]);
 	}
 
 	MergeSort(pstr, 0, size - 1);
