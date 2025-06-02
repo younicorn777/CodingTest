@@ -1,40 +1,45 @@
 import sys
 input = sys.stdin.readline
 
-sys.setrecursionlimit(10**6)
+parent = []
 
-def find(x):
-    if parent[x] < 0:
-        return x
-    parent[x] = find(parent[x])  # 경로 압축
-    return parent[x]
+def init_set(nSets):
+    global parent
+    parent = [-1] * nSets
 
-def union(x, y):
-    x_root = find(x)
-    y_root = find(y)
-    if x_root == y_root:
-        return False
-    parent[y_root] = x_root  # 그냥 y_root를 x_root 밑에 붙이기
-    return True
+def find(id):
+    if parent[id] < 0:
+        return id
+    parent[id] = find(parent[id])  # path compression
+    return parent[id]
 
-v, e = map(int, input().split())
-parent = [-1] * (v + 1)
+def union(s1, s2):
+    parent[s1] = s2
+
+def MSTKruskal(vsize, eList):
+    eList.sort(key=lambda e: e[2])  # 가중치 오름차순
+    total_weight = 0
+    edgeAccepted = 0
+
+    for e in eList:
+        uset = find(e[0])
+        vset = find(e[1])
+        if uset != vset:
+            union(uset, vset)
+            total_weight += e[2]
+            edgeAccepted += 1
+            if edgeAccepted == vsize - 1:
+                break
+
+    return total_weight
+
+V, E = map(int, input().split())
+init_set(V)
+
 edges = []
-
-for _ in range(e):
+for _ in range(E):
     a, b, c = map(int, input().split())
-    edges.append((a, b, c))
+    edges.append((a - 1, b - 1, c))  # 0-index로 맞춤
 
-edges.sort(key=lambda x: x[2])  # 가중치 기준 정렬
-
-weight_sum = 0
-edge_count = 0
-
-for a, b, c in edges:
-    if union(a, b):
-        weight_sum += c
-        edge_count += 1
-        if edge_count == v - 1:
-            break
-
-print(weight_sum)
+result = MSTKruskal(V, edges)
+print(result)
