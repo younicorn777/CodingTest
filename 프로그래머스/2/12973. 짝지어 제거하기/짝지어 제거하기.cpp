@@ -5,7 +5,6 @@ using namespace std;
 
 int solution(string s)
 {
-    int answer = -1;
     stack<char> st;
     
     for(const auto& c : s){
@@ -18,6 +17,6 @@ int solution(string s)
                 st.push(c);
         }
     }
-    answer = st.empty() ? 1 : 0;
-    return answer;
+    
+    return st.empty();
 }
