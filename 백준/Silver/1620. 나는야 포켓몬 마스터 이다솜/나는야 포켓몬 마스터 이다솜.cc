@@ -15,7 +15,8 @@ int main() {
 	}
 	for (int j = 0; j < m; j++) {
 		cin >> temp;
-		if (num = atoi(temp.c_str())) cout << a[num] << '\n';
+		num = atoi(temp.c_str());
+		if (num) cout << a[num] << '\n';
 		else cout << table[temp] << '\n';
 	}
 }
