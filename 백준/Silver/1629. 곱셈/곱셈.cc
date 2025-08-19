@@ -1,19 +1,17 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-int a, b, c;
-ll Pow(int a, int b, int c) {
-	if (b == 0) return 1;
+ll a, b, c;
+ll go(ll a, ll b) {
 	if (b == 1) return a % c;
-
-	ll ret = Pow(a, b / 2, c);
+	ll ret = go(a, b / 2);
 	ret = (ret * ret) % c;
-	if (b % 2 != 0) return  (ret * a) % c;
-	else return ret;
+	if (b & 1) ret = (ret * a) % c;
+	return ret;
 }
 int main() {
 	ios::sync_with_stdio(false);
 	cin.tie(NULL); cout.tie(NULL);
 	cin >> a >> b >> c;
-	cout << Pow(a, b, c);
+	cout << go(a, b);
 }
