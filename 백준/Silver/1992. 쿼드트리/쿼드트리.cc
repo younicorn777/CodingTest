@@ -4,21 +4,14 @@ const int max_n = 68;
 int a[max_n][max_n], n;
 string s;
 void go(int y, int x, int size) {
-	int zcnt = 0, ocnt = 0;
+	int first = a[y][x];
+	bool flag = true;
 	for (int i = y; i < y + size; i++) {
 		for (int j = x; j < x + size; j++) {
-			if (a[i][j]) ocnt++;
-			else zcnt++;
+			if (a[i][j] != first) flag = false;
 		}
 	}
-	if (zcnt > 0 && ocnt == 0) {
-		cout << '0';
-		return;
-	}
-	else if (zcnt == 0 && ocnt > 0) {
-		cout << '1';
-		return;
-	}
+	if (flag) cout << first;
 	else {
 		cout << '(';
 		go(y, x, size / 2);
