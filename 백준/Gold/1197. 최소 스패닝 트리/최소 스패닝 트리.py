@@ -1,5 +1,7 @@
 import heapq
 import sys
+
+# 입력 속도 향상
 input = sys.stdin.readline
 
 V, E = map(int, input().split())
@@ -12,12 +14,12 @@ for _ in range(E):
     adj[v].append((w, u))
 
 def prim(start):
-    pq = [(0, start)] 
+    pq = [(0, start)] # (가중치, 정점)
     total_weight = 0
-    cnt = 0
+    cnt = 0 # 연결된 정점 수
     
     while pq:
-        if cnt == V: break
+        if cnt == V: break # 모든 정점을 다 연결하면 종료
         
         weight, curr = heapq.heappop(pq)
         
